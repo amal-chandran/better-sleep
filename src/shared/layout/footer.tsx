@@ -11,7 +11,7 @@ type GroupedNavItems = {
   [key: string]: NavigationItem[];
 };
 
-function Footer({ footerNavItems }: FooterProps) {
+export function Footer({ footerNavItems }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   // Group navigation items by groupName
@@ -126,5 +126,3 @@ function Footer({ footerNavItems }: FooterProps) {
     </footer>
   );
 }
-
-export default Footer;

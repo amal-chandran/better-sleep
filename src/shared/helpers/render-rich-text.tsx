@@ -7,11 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-/**
- * Renders Contentful rich text document to React components
- * @param document - The rich text document from Contentful
- * @returns React components
- */
 export const renderRichText = (document: Document | null | undefined) => {
   if (!document) {
     return null;

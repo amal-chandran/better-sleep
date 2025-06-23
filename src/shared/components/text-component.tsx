@@ -9,7 +9,7 @@ interface TextComponentProps {
   align?: "left" | "center" | "right";
 }
 
-function TextComponent(props: TextComponentProps) {
+export function TextComponent(props: TextComponentProps) {
   const textAlign = {
     left: "text-left",
     center: "text-center",
@@ -30,5 +30,3 @@ function TextComponent(props: TextComponentProps) {
     </div>
   );
 }
-
-export { TextComponent };

@@ -1,20 +1,9 @@
 import { getPageBySlug } from "@/modules/custom-page/actions/get-page-by-slug";
-import { ImageAndTextComponent } from "@/modules/home-page/components/image-and-text-component";
-import { ImageComponent } from "@/modules/home-page/components/image-component";
-import { TextComponent } from "@/modules/home-page/components/text-component";
+import { ImageAndTextComponent } from "@/shared/components/image-and-text-component";
+import { ImageComponent } from "@/shared/components/image-component";
+import { TextComponent } from "@/shared/components/text-component";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-
-async function getPageData(slug: string) {
-  try {
-    const pageCollection = await getPageBySlug(slug);
-
-    return pageCollection.items[0] || null;
-  } catch (error) {
-    console.error("Error fetching page data:", error);
-    return null;
-  }
-}
 
 export async function generateMetadata({
   params,
@@ -23,7 +12,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  const pageData = await getPageData(slug);
+  const pageData = await getPageBySlug(slug);
 
   if (!pageData) {
     return {
@@ -45,7 +34,7 @@ export default async function SlugPage({
 }) {
   const { slug } = await params;
 
-  const pageData = await getPageData(slug);
+  const pageData = await getPageBySlug(slug);
 
   if (!pageData) {
     notFound();

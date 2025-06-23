@@ -1,8 +1,8 @@
 import { getHomePage } from "@/modules/home-page/actions/get-home-page";
-import HeroCarousel from "@/modules/home-page/components/hero-carousel";
-import { ImageAndTextComponent } from "@/modules/home-page/components/image-and-text-component";
-import { ImageComponent } from "@/modules/home-page/components/image-component";
-import { TextComponent } from "@/modules/home-page/components/text-component";
+import { HeroCarousel } from "@/modules/home-page/components/hero-carousel";
+import { ImageAndTextComponent } from "@/shared/components/image-and-text-component";
+import { ImageComponent } from "@/shared/components/image-component";
+import { TextComponent } from "@/shared/components/text-component";
 import { notFound } from "next/navigation";
 
 export default async function Home() {

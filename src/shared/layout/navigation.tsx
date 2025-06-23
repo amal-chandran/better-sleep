@@ -8,7 +8,7 @@ type NavigationProps = {
   navItems: NavigationItem[];
 };
 
-function Navigation({ navItems }: NavigationProps) {
+export function Navigation({ navItems }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -82,5 +82,3 @@ function Navigation({ navItems }: NavigationProps) {
     </nav>
   );
 }
-
-export default Navigation;

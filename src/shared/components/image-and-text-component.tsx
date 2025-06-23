@@ -12,7 +12,7 @@ interface ImageAndTextComponentProps {
   imagePosition?: "left" | "right";
 }
 
-function ImageAndTextComponent(props: ImageAndTextComponentProps) {
+export function ImageAndTextComponent(props: ImageAndTextComponentProps) {
   const isImageLeft = (props.imagePosition || "left") === "left";
   const renderedContent = renderRichText(props.content);
 
@@ -44,5 +44,3 @@ function ImageAndTextComponent(props: ImageAndTextComponentProps) {
     </div>
   );
 }
-
-export { ImageAndTextComponent };

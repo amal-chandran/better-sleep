@@ -14,7 +14,7 @@ interface HeroCarouselProps {
   slides: HomePage["carouselCollection"];
 }
 
-const HeroCarousel = ({ slides }: HeroCarouselProps) => {
+export function HeroCarousel({ slides }: HeroCarouselProps) {
   if (!slides || slides.items.length === 0) {
     return null;
   }
@@ -54,6 +54,4 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
       </Carousel>
     </section>
   );
-};
-
-export default HeroCarousel;
+}

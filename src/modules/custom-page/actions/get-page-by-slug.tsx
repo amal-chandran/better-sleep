@@ -47,5 +47,7 @@ export async function getPageBySlug(slug: string) {
     throw new Error(`Page with slug '${slug}' not found`);
   }
 
-  return pageOut.pageCollection;
+  return pageOut.pageCollection.items[0];
 }
+
+export type PageBySlug = Awaited<ReturnType<typeof getPageBySlug>>;

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import Navigation from "@/shared/layout/navigation";
 import Footer from "@/shared/layout/footer";
+import Navigation from "@/shared/layout/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,25 +16,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DreamRest - Better Sleep Solutions",
-  description: "Helping you achieve better sleep and improve your life through science-backed sleep solutions.",
+  title: "Better Sleep - Better Sleep Solutions",
+  description:
+    "Helping you achieve better sleep and improve your life through science-backed sleep solutions.",
 };
 
-export default function RootLayout({
+import { getNavigationByPosition } from "@/shared/actions/get-navigation-by-position";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch both navigation data in parallel using Promise.all
+  const [headerNavData, footerNavData] = await Promise.all([
+    getNavigationByPosition("header"),
+    getNavigationByPosition("footer"),
+  ]);
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        <Navigation />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+        <Navigation navItems={headerNavData?.items || []} />
+        <main className="flex-grow">{children}</main>
+        <Footer footerNavItems={footerNavData?.items || []} />
       </body>
     </html>
   );

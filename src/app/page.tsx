@@ -7,22 +7,9 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { notFound } from "next/navigation";
 
 export default async function Home() {
-  // Fetch home page content from Contentful using the new action
   const homePageCollection = await getHomePage();
 
-  // If no data is returned, show a fallback
-  if (!homePageCollection || homePageCollection.items.length === 0) {
-    return (
-      <div className="py-16 text-center">
-        <h1 className="text-3xl font-bold">Welcome to Better Sleep</h1>
-        <p className="mt-4">
-          Content is currently unavailable. Please check back later.
-        </p>
-      </div>
-    );
-  }
-
-  const homePage = homePageCollection.items[0];
+  const homePage = homePageCollection;
 
   if (!homePage) {
     notFound();
@@ -30,17 +17,14 @@ export default async function Home() {
 
   return (
     <div className="container mx-auto">
-      {/* Hero Carousel Section */}
       {homePage.carouselCollection?.items &&
         homePage.carouselCollection.items.length > 0 && (
-          <HeroCarousel slides={homePage.carouselCollection.items} />
+          <HeroCarousel slides={homePage.carouselCollection} />
         )}
 
       <div className="flex flex-col gap-8 mb-16">
-        {/* Render sections from Contentful */}
         {homePage.sectionsCollection?.items &&
           homePage.sectionsCollection.items.map((section, index) => {
-            // Determine section type based on __typename
             if (!section) return null;
 
             switch (section.__typename) {
@@ -55,7 +39,7 @@ export default async function Home() {
                     }
                     imageSrc={section.image?.url || ""}
                     imageAlt={section.title || "Image"}
-                    imagePosition={"left"} // Default to left as it's not specified in the GraphQL response
+                    imagePosition={"left"}
                   />
                 );
 
@@ -69,8 +53,7 @@ export default async function Home() {
                         ? documentToReactComponents(section.content.json)
                         : null
                     }
-                    align={"center"} // Default to center as it's not specified in the GraphQL response
-                    className="py-16"
+                    align={"center"}
                   />
                 );
 
@@ -79,8 +62,8 @@ export default async function Home() {
                   <ImageComponent
                     src={section.image?.url || ""}
                     alt={section.title || "Image"}
-                    width={600} // Default width
-                    height={400} // Default height
+                    width={600}
+                    height={400}
                     key={`image-${index}`}
                   />
                 );

@@ -11,6 +11,9 @@ importers:
       '@contentful/rich-text-react-renderer':
         specifier: ^16.0.2
         version: 16.0.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@contentful/rich-text-types':
+        specifier: ^17.0.1
+        version: 17.0.1
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.11.0)

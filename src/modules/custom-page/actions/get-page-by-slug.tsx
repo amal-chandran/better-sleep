@@ -1,21 +1,14 @@
 import { graphql } from "@/gql";
 import { client } from "@/shared/graphql/client";
 
-export const getHomePageQuery = graphql(/* GraphQL */ `
-  query getHomePageQuery {
-    homePageCollection(limit: 1) {
+export const getPageBySlugQuery = graphql(/* GraphQL */ `
+  query pageCollectionQuery($slug: String) {
+    pageCollection(where: { slug: $slug }, limit: 1) {
       items {
         title
         metaTitle
         metaDescription
-        carouselCollection {
-          items {
-            title
-            image {
-              url
-            }
-          }
-        }
+        slug
         sectionsCollection {
           items {
             __typename
@@ -47,14 +40,12 @@ export const getHomePageQuery = graphql(/* GraphQL */ `
   }
 `);
 
-export async function getHomePage() {
-  const homePageOut = await client.request(getHomePageQuery);
+export async function getPageBySlug(slug: string) {
+  const pageOut = await client.request(getPageBySlugQuery, { slug });
 
-  if (!homePageOut || !homePageOut.homePageCollection?.items?.[0]) {
-    throw new Error("Homepage not found");
+  if (!pageOut || !pageOut.pageCollection?.items?.[0]) {
+    throw new Error(`Page with slug '${slug}' not found`);
   }
 
-  return homePageOut.homePageCollection.items[0];
+  return pageOut.pageCollection;
 }
-
-export type HomePage = Awaited<ReturnType<typeof getHomePage>>;

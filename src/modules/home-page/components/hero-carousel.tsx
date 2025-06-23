@@ -8,42 +8,26 @@ import {
   CarouselPrevious,
 } from "@/shared/shadcn/ui/carousel";
 import Image from "next/image";
-
-// Define the type for carousel items from Contentful
-interface CarouselSlide {
-  title?: string;
-  description?: string;
-  image?: {
-    url?: string;
-  };
-  ctaText?: string;
-  ctaLink?: string;
-}
+import { HomePage } from "../actions/get-home-page";
 
 interface HeroCarouselProps {
-  slides: CarouselSlide[] | null;
+  slides: HomePage["carouselCollection"];
 }
 
-const HeroCarousel = ({ slides = [] }: HeroCarouselProps) => {
-  // If no slides are provided, don't render anything
-  if (!slides || slides.length === 0) {
+const HeroCarousel = ({ slides }: HeroCarouselProps) => {
+  if (!slides || slides.items.length === 0) {
     return null;
   }
-
-  // Debug: Log all slide data
-  console.log("Carousel slides:", slides);
 
   return (
     <section className="relative w-full">
       <Carousel className="w-full">
         <CarouselContent>
-          {slides.map((item, index) => {
-            console.log(`Slide ${index} image URL:`, item.image?.url);
+          {slides.items.map((item, index) => {
             return (
               <CarouselItem key={index}>
                 <div className="relative h-[500px] w-full">
-                  {/* Only show the image */}
-                  {item.image?.url ? (
+                  {item?.image?.url ? (
                     <div className="h-full w-full relative">
                       <Image
                         src={item.image.url}

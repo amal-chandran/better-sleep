@@ -22,7 +22,7 @@ function TextComponent(props: TextComponentProps) {
       {props.title && (
         <h2 className="text-3xl font-bold mb-4 text-gray-800">{props.title}</h2>
       )}
-      <div className="prose prose-lg max-w-none text-gray-700">
+      <div className="prose prose-lg text-justify max-w-none text-gray-700">
         {props.content}
       </div>
     </div>

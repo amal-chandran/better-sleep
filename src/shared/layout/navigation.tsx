@@ -1,22 +1,21 @@
 "use client";
-
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { NavigationItem } from "../actions/get-navigation-by-position";
 
-const Navigation = () => {
+type NavigationProps = {
+  navItems: NavigationItem[];
+};
+
+function Navigation({ navItems }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const navItems = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Products", href: "/products" },
-    { name: "Contact", href: "/contact" },
-  ];
+  const regularNavItems = navItems;
 
   return (
     <nav className="bg-white shadow-md">
@@ -24,29 +23,22 @@ const Navigation = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-blue-600">DreamRest</span>
+              <span className="text-xl font-bold ">Better Sleep</span>
             </Link>
           </div>
-          
-          {/* Desktop Navigation */}
+
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
+            {regularNavItems.map((item, index) => (
               <Link
-                key={item.name}
-                href={item.href}
+                key={index}
+                href={item?.link || "#"}
                 className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
-                {item.name}
+                {item?.label || ""}
               </Link>
             ))}
-            <Link
-              href="/get-started"
-              className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
-            >
-              Get Started
-            </Link>
           </div>
-          
+
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
@@ -69,28 +61,21 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navItems.map((item) => (
+            {regularNavItems.map((item, index) => (
               <Link
-                key={item.name}
-                href={item.href}
+                key={index}
+                href={item?.link || "#"}
                 className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item.name}
+                {item?.label || ""}
               </Link>
             ))}
-            <Link
-              href="/get-started"
-              className="bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Get Started
-            </Link>
           </div>
         </div>
       )}
     </nav>
   );
-};
+}
 
 export default Navigation;

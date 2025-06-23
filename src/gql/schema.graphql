@@ -625,9 +625,11 @@ scalar JSON
 type Navigation implements Entry & _Node {
   _id: ID!
   contentfulMetadata: ContentfulMetadata!
+  groupName(locale: String): String
   label(locale: String): String
   link(locale: String): String
   linkedFrom(allowedLocales: [String]): NavigationLinkingCollections
+  position(locale: String): String
   sys: Sys!
 }
 
@@ -642,6 +644,13 @@ input NavigationFilter {
   AND: [NavigationFilter]
   OR: [NavigationFilter]
   contentfulMetadata: ContentfulMetadataFilter
+  groupName: String
+  groupName_contains: String
+  groupName_exists: Boolean
+  groupName_in: [String]
+  groupName_not: String
+  groupName_not_contains: String
+  groupName_not_in: [String]
   label: String
   label_contains: String
   label_exists: Boolean
@@ -656,6 +665,13 @@ input NavigationFilter {
   link_not: String
   link_not_contains: String
   link_not_in: [String]
+  position: String
+  position_contains: String
+  position_exists: Boolean
+  position_in: [String]
+  position_not: String
+  position_not_contains: String
+  position_not_in: [String]
   sys: SysFilter
 }
 
@@ -664,10 +680,14 @@ type NavigationLinkingCollections {
 }
 
 enum NavigationOrder {
+  groupName_ASC
+  groupName_DESC
   label_ASC
   label_DESC
   link_ASC
   link_DESC
+  position_ASC
+  position_DESC
   sys_firstPublishedAt_ASC
   sys_firstPublishedAt_DESC
   sys_id_ASC

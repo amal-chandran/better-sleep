@@ -823,10 +823,18 @@ export type Navigation = Entry & _Node & {
   __typename?: 'Navigation';
   _id: Scalars['ID']['output'];
   contentfulMetadata: ContentfulMetadata;
+  groupName?: Maybe<Scalars['String']['output']>;
   label?: Maybe<Scalars['String']['output']>;
   link?: Maybe<Scalars['String']['output']>;
   linkedFrom?: Maybe<NavigationLinkingCollections>;
+  position?: Maybe<Scalars['String']['output']>;
   sys: Sys;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/d7xrd5bxl1cj/content_types/navigation) */
+export type NavigationGroupNameArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -847,6 +855,12 @@ export type NavigationLinkedFromArgs = {
   allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+
+/** [See type definition](https://app.contentful.com/spaces/d7xrd5bxl1cj/content_types/navigation) */
+export type NavigationPositionArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type NavigationCollection = {
   __typename?: 'NavigationCollection';
   items: Array<Maybe<Navigation>>;
@@ -859,6 +873,13 @@ export type NavigationFilter = {
   AND?: InputMaybe<Array<InputMaybe<NavigationFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<NavigationFilter>>>;
   contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
+  groupName?: InputMaybe<Scalars['String']['input']>;
+  groupName_contains?: InputMaybe<Scalars['String']['input']>;
+  groupName_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  groupName_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  groupName_not?: InputMaybe<Scalars['String']['input']>;
+  groupName_not_contains?: InputMaybe<Scalars['String']['input']>;
+  groupName_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   label?: InputMaybe<Scalars['String']['input']>;
   label_contains?: InputMaybe<Scalars['String']['input']>;
   label_exists?: InputMaybe<Scalars['Boolean']['input']>;
@@ -873,6 +894,13 @@ export type NavigationFilter = {
   link_not?: InputMaybe<Scalars['String']['input']>;
   link_not_contains?: InputMaybe<Scalars['String']['input']>;
   link_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  position?: InputMaybe<Scalars['String']['input']>;
+  position_contains?: InputMaybe<Scalars['String']['input']>;
+  position_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  position_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  position_not?: InputMaybe<Scalars['String']['input']>;
+  position_not_contains?: InputMaybe<Scalars['String']['input']>;
+  position_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   sys?: InputMaybe<SysFilter>;
 };
 
@@ -890,10 +918,14 @@ export type NavigationLinkingCollectionsEntryCollectionArgs = {
 };
 
 export enum NavigationOrder {
+  GroupNameAsc = 'groupName_ASC',
+  GroupNameDesc = 'groupName_DESC',
   LabelAsc = 'label_ASC',
   LabelDesc = 'label_DESC',
   LinkAsc = 'link_ASC',
   LinkDesc = 'link_DESC',
+  PositionAsc = 'position_ASC',
+  PositionDesc = 'position_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
   SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
   SysIdAsc = 'sys_id_ASC',
@@ -1710,10 +1742,26 @@ export type CfsectionsMultiTypeNestedFilter = {
   title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+export type PageCollectionQueryQueryVariables = Exact<{
+  slug?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type PageCollectionQueryQuery = { __typename?: 'Query', pageCollection?: { __typename?: 'PageCollection', items: Array<{ __typename?: 'Page', title?: string | null, metaTitle?: string | null, metaDescription?: string | null, slug?: string | null, sectionsCollection?: { __typename?: 'PageSectionsCollection', items: Array<{ __typename: 'ImageSection', title?: string | null, image?: { __typename?: 'Asset', url?: string | null } | null } | { __typename: 'TextImageSection', title?: string | null, content?: { __typename?: 'TextImageSectionContent', json: any } | null, image?: { __typename?: 'Asset', url?: string | null } | null } | { __typename: 'TextSection', title?: string | null, content?: { __typename?: 'TextSectionContent', json: any } | null } | null> } | null } | null> } | null };
+
 export type GetHomePageQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetHomePageQueryQuery = { __typename?: 'Query', homePageCollection?: { __typename?: 'HomePageCollection', items: Array<{ __typename?: 'HomePage', title?: string | null, metaTitle?: string | null, metaDescription?: string | null, carouselCollection?: { __typename?: 'HomePageCarouselCollection', items: Array<{ __typename?: 'Carousel', title?: string | null, image?: { __typename?: 'Asset', url?: string | null } | null } | null> } | null, sectionsCollection?: { __typename?: 'HomePageSectionsCollection', items: Array<{ __typename: 'ImageSection', title?: string | null, image?: { __typename?: 'Asset', url?: string | null } | null } | { __typename: 'TextImageSection', title?: string | null, content?: { __typename?: 'TextImageSectionContent', json: any } | null, image?: { __typename?: 'Asset', url?: string | null } | null } | { __typename: 'TextSection', title?: string | null, content?: { __typename?: 'TextSectionContent', json: any } | null } | null> } | null } | null> } | null };
 
+export type GetNavigationByPositionQueryVariables = Exact<{
+  position: Scalars['String']['input'];
+}>;
 
+
+export type GetNavigationByPositionQuery = { __typename?: 'Query', navigationCollection?: { __typename?: 'NavigationCollection', items: Array<{ __typename?: 'Navigation', link?: string | null, label?: string | null, groupName?: string | null, position?: string | null } | null> } | null };
+
+
+export const PageCollectionQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"pageCollectionQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"metaTitle"}},{"kind":"Field","name":{"kind":"Name","value":"metaDescription"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"sectionsCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TextSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"json"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TextImageSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"json"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<PageCollectionQueryQuery, PageCollectionQueryQueryVariables>;
 export const GetHomePageQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getHomePageQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"homePageCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"metaTitle"}},{"kind":"Field","name":{"kind":"Name","value":"metaDescription"}},{"kind":"Field","name":{"kind":"Name","value":"carouselCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"sectionsCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TextSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"json"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TextImageSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"json"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetHomePageQueryQuery, GetHomePageQueryQueryVariables>;
+export const GetNavigationByPositionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getNavigationByPosition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"position"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"navigationCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"position"},"value":{"kind":"Variable","name":{"kind":"Name","value":"position"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"groupName"}},{"kind":"Field","name":{"kind":"Name","value":"position"}}]}}]}}]}}]} as unknown as DocumentNode<GetNavigationByPositionQuery, GetNavigationByPositionQueryVariables>;

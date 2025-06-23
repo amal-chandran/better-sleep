@@ -1,103 +1,95 @@
-import Image from "next/image";
+import { getHomePage } from "@/modules/home-page/actions/get-home-page";
+import HeroCarousel from "@/modules/home-page/components/hero-carousel";
+import { ImageAndTextComponent } from "@/modules/home-page/components/image-and-text-component";
+import { ImageComponent } from "@/modules/home-page/components/image-component";
+import { TextComponent } from "@/modules/home-page/components/text-component";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { notFound } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch home page content from Contentful using the new action
+  const homePageCollection = await getHomePage();
+
+  // If no data is returned, show a fallback
+  if (!homePageCollection || homePageCollection.items.length === 0) {
+    return (
+      <div className="py-16 text-center">
+        <h1 className="text-3xl font-bold">Welcome to Better Sleep</h1>
+        <p className="mt-4">
+          Content is currently unavailable. Please check back later.
+        </p>
+      </div>
+    );
+  }
+
+  const homePage = homePageCollection.items[0];
+
+  if (!homePage) {
+    notFound();
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="container mx-auto">
+      {/* Hero Carousel Section */}
+      {homePage.carouselCollection?.items &&
+        homePage.carouselCollection.items.length > 0 && (
+          <HeroCarousel slides={homePage.carouselCollection.items} />
+        )}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <div className="flex flex-col gap-8 mb-16">
+        {/* Render sections from Contentful */}
+        {homePage.sectionsCollection?.items &&
+          homePage.sectionsCollection.items.map((section, index) => {
+            // Determine section type based on __typename
+            if (!section) return null;
+
+            switch (section.__typename) {
+              case "TextImageSection":
+                return (
+                  <ImageAndTextComponent
+                    title={section.title || ""}
+                    content={
+                      section.content?.json
+                        ? documentToReactComponents(section.content.json)
+                        : null
+                    }
+                    imageSrc={section.image?.url || ""}
+                    imageAlt={section.title || "Image"}
+                    imagePosition={"left"} // Default to left as it's not specified in the GraphQL response
+                  />
+                );
+
+              case "TextSection":
+                return (
+                  <TextComponent
+                    key={`text-${index}`}
+                    title={section.title || ""}
+                    content={
+                      section.content?.json
+                        ? documentToReactComponents(section.content.json)
+                        : null
+                    }
+                    align={"center"} // Default to center as it's not specified in the GraphQL response
+                    className="py-16"
+                  />
+                );
+
+              case "ImageSection":
+                return (
+                  <ImageComponent
+                    src={section.image?.url || ""}
+                    alt={section.title || "Image"}
+                    width={600} // Default width
+                    height={400} // Default height
+                    key={`image-${index}`}
+                  />
+                );
+
+              default:
+                return null;
+            }
+          })}
+      </div>
     </div>
   );
 }

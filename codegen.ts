@@ -18,6 +18,12 @@ const config: CodegenConfig = {
       preset: "client",
       plugins: [],
     },
+    "src/gql/schema.graphql": {
+      plugins: ["schema-ast"],
+      config: {
+        commentDescriptions: true,
+      },
+    },
   },
 };
 

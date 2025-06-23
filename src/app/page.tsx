@@ -35,6 +35,7 @@ export default async function Home() {
                     imageSrc={section.image?.url || ""}
                     imageAlt={section.title || "Image"}
                     imagePosition={"left"}
+                    key={`image-and-text-${index}`}
                   />
                 );
 

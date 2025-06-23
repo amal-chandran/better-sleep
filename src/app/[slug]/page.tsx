@@ -2,7 +2,6 @@ import { getPageBySlug } from "@/modules/custom-page/actions/get-page-by-slug";
 import { ImageAndTextComponent } from "@/modules/home-page/components/image-and-text-component";
 import { ImageComponent } from "@/modules/home-page/components/image-component";
 import { TextComponent } from "@/modules/home-page/components/text-component";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -65,11 +64,7 @@ export default async function SlugPage({
                 <TextComponent
                   key={index}
                   title={section?.title || ""}
-                  content={
-                    section?.content?.json
-                      ? documentToReactComponents(section.content.json)
-                      : null
-                  }
+                  content={section?.content?.json || null}
                   align="left"
                 />
               );
@@ -88,11 +83,7 @@ export default async function SlugPage({
                 <ImageAndTextComponent
                   key={index}
                   title={section?.title || ""}
-                  content={
-                    section?.content?.json
-                      ? documentToReactComponents(section.content.json)
-                      : null
-                  }
+                  content={section?.content?.json || null}
                   imageSrc={section?.image?.url || ""}
                   imageAlt={section?.title || ""}
                   imagePosition="right"
